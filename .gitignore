@@ -16,4 +16,6 @@ local_settings.py
 
 media
 
+# VS Code Stuff
+*.code-workspace
 .vscode
