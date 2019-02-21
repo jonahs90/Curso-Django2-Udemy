@@ -22,6 +22,7 @@ urlpatterns = [
     path('services/', include('services.urls')),
     path('blog/', include('blog.urls')),
     path('page/', include('pages.urls')),
+    path('contact/', include('contact.urls')),
     # Paths admin
     path('admin/', admin.site.urls),
 ]
