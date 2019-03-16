@@ -1,7 +1,6 @@
 *.pyc
 __pycache__
 fonexa_venv
-migrations
 .DS_Store
 .env
 
