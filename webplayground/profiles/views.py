@@ -7,6 +7,7 @@ from django.views.generic.detail import DetailView
 class ProfileListView(ListView):
     model = Profile
     template_name = 'profiles/profile_list.html'
+    paginate_by = 3
 
 class ProfileDetailView(DetailView):
     model = Profile
