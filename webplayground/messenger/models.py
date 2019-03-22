@@ -12,10 +12,20 @@ class Message(models.Model):
     class Meta():
         ordering = ['created']
 
+class ThreadManager(models.Manager):
+    def find(self, user1, user2):
+        queryset = self.filter(users=user1).filter(users=user2)
+        if len(queryset) >0:
+            return queryset[0]
+        else:
+            return None
+
 class Thread(models.Model):
     users = models.ManyToManyField(User, related_name="threads")
     messages = models.ManyToManyField(Message)
 
+    # Thread.objects.find()
+    objects = ThreadManager()
 
 def messages_changed(sender, *args, **kwargs):
     instance = kwargs.pop("instance", None)
@@ -32,5 +42,5 @@ def messages_changed(sender, *args, **kwargs):
                 false_pk_set.add(msg_pk)
     #Buscar los mensaje de false_pk_set y los borramos de pk_set
     pk_set.difference_update(false_pk_set)
-    
+
 m2m_changed.connect(messages_changed, sender=Thread.messages.through)
