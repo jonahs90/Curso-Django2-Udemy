@@ -19,7 +19,7 @@ class ThreadTestCase(TestCase):
         self.thread.users.add(self.user1, self.user2)
         threads = Thread.objects.filter(users=self.user1).filter(users=self.user2)
         self.assertEqual(self.thread, threads[0])
-    
+
     def test_filter_non_existent_thread(self):
         threads = Thread.objects.filter(
             users=self.user1).filter(users=self.user2)
@@ -49,3 +49,10 @@ class ThreadTestCase(TestCase):
         self.thread.users.add(self.user1, self.user2)
         thread = Thread.objects.find(self.user1,self.user2)
         self.assertEqual(self.thread, thread)
+
+    def test_find_or_create_thread_with_custom_manager(self):
+        self.thread.users.add(self.user1, self.user2)
+        thread = Thread.objects.find_or_create(self.user1,self.user2)
+        self.assertEqual(self.thread, thread)
+        thread = Thread.objects.find_or_create(self.user1,self.user3)
+        self.assertIsNotNone(thread)
