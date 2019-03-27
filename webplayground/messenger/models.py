@@ -30,9 +30,12 @@ class ThreadManager(models.Manager):
 class Thread(models.Model):
     users = models.ManyToManyField(User, related_name="threads")
     messages = models.ManyToManyField(Message)
-
+    updated = models.DateTimeField(auto_now=True)
     # Thread.objects.find()
     objects = ThreadManager()
+
+    class Meta():
+        ordering = ['-updated']
 
 def messages_changed(sender, *args, **kwargs):
     instance = kwargs.pop("instance", None)
@@ -50,4 +53,7 @@ def messages_changed(sender, *args, **kwargs):
     #Buscar los mensaje de false_pk_set y los borramos de pk_set
     pk_set.difference_update(false_pk_set)
 
+    #Forzamos la actualizacion
+    instance.save()
+    
 m2m_changed.connect(messages_changed, sender=Thread.messages.through)
